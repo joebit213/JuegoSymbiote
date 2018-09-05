@@ -7,7 +7,8 @@ var ctx = canvas.getContext('2d')
 
 
 //Variables globales
-var monstruos = []
+var zombiess = []
+var cuervos = []
 var interval;
 var frames = 0;
 var disparosP = []
@@ -33,7 +34,7 @@ class Piso{
       this.draw()
     }
     this.music = new Audio()
-    this.music.src = "http://66.90.93.122/ost/street-fighter-2-turbo/insotsfo/09.%20Ryu%20Stage.mp3"
+    this.music.src = "http://66.90.93.122/ost/legend-of-zelda-the-majora-s-mask-3d-original-sound-track/dulyjzpw/216%20Ghost%20Attack.mp3"
   }
   draw(){
     this.x--
@@ -76,7 +77,7 @@ class Comandante{
     }
     this.gravity = 4
     this.crash = new Audio()
-    this.crash.src = ""
+    this.crash.src = "http://66.90.93.122/ost/the-legend-of-zelda-nes/ssgnhwrp/10%20Ending.mp3"
   }
   draw(){
   if(this.y < canvas.height - 260) this.y += this.gravity
@@ -99,9 +100,9 @@ class Comandante{
 }//termina comandante
 
 class Balas{
-  constructor(player){
-    this.x = player.x+player.width-10
-    this.y = player.y+(player.height/2)-21
+  constructor(){
+    this.x = comand.x+comand.width-10
+    this.y = comand.y+(comand.height/2)-21
     this.width = 20
     this.height = 20
     this.image = new Image ()
@@ -113,17 +114,15 @@ class Balas{
     //this..src = ""
   }
   draw(){
-    this.x+=2
-  //if(e.keyCode == 35){
+    this.x+=5
     ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
-  //}
   }
-  crashWidth(zombie){
-    var crash = (this.x < zombie.x + zombie.width) &&
+  mosterKill(item){
+    var crash = (this.x < item.x + item.width) &&
            (this.x + this.width > item.x) &&
-           (this.y < zombie.y + zombie.height) &&
-           (this.y + this.height > zombie.y);
-           if (crash) this.crash.play()
+           (this.y < item.y + item.height) &&
+           (this.y + this.height > item.y);
+           //if (crash) this.crash.play()
            return crash;
   }
 }
@@ -139,11 +138,14 @@ class Pajaros {
     this.image.onload = () =>{
       this.draw()
     }
+    this.music = new Audio()
+    this.music.src = 'https://sonidosdeanimales.net/wp-content/uploads/2015/09/cuervo.mp3'
     }
     draw(){
       this.x-=2
       ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
   }
+
 }
 
 class Zombie {
@@ -157,6 +159,8 @@ class Zombie {
     this.image.onload = () =>{
       this.draw()
     }
+    this.music = new Audio()
+    this.music.src = "http://soundbible.com/mp3/Mummy Zombie-SoundBible.com-1966938763.mp3"
     }
     draw(){
       this.x-=.5
@@ -169,7 +173,9 @@ class Zombie {
 var foondo = new Fondo()
 var pisoo = new Piso()
 var comand = new Comandante()
-
+var zombieee = new Zombie()
+var cuervo = new Pajaros()
+var balasas = new Balas()
 
 //funciones principales
 function update(){
@@ -185,6 +191,7 @@ function update(){
   drawZombies()
   checkCollitions()
   drawBalas()
+  killMonsters()
 }
 
 function start(){
@@ -198,7 +205,8 @@ function gameOver(){
   ctx.font = ('90px Avenir')
   ctx.fillText('Game Over', 50 ,250)
   interval=null
-  //board.music.pause()
+  comand.crash.play()
+  pisoo.music.pause()
 
 }
 
@@ -207,13 +215,14 @@ function generatePajaros(){
   if(frames % 250 === 0){
       var y = Math.floor(Math.random() * 400) + 20;
       var alto = 40;
-      var pajaroArriba = new Pajaros(y,alto, 'pajaro')
-      monstruos.push(pajaroArriba)
+      var cuervo = new Pajaros(y,alto, 'pajaro')
+      cuervos.push(cuervo)
+      cuervo.music.play()
   }
 }
 
 function drawPajaros(){
-  monstruos.forEach(function(pajaro){
+  cuervos.forEach(function(pajaro){
     pajaro.draw()
   })
 }
@@ -223,29 +232,41 @@ function generateZombies(){
       var y = 260;
       var alto = 100;
       var zombies = new Zombie(y,alto, 'zombie')
-      monstruos.push(zombies)
+      zombiess.push(zombies)
+      zombieee.music.play()
   }
 }
 
 function drawZombies(){
-  monstruos.forEach(function(zombie){
+  zombiess.forEach(function(zombie){
     zombie.draw()
   })
 }
 
+function killMonsters(){
+  disparosP.forEach(function(zombie){
+    if(balasas.mosterKill(zombie)){
+    zombiess.splice(0,1);
+  }
+})
+}
+
 function checkCollitions(){
-  monstruos.forEach(function(pajaro,zombie){
-    if(comand.crashWidth(pajaro,zombie)){
+  zombiess.forEach(function(zombie){
+    if(comand.crashWidth(zombie)){
       gameOver()
     }
   })
+  cuervos.forEach(function(cuervo){
+    if(comand.crashWidth(cuervo)){
+      gameOver()
+    }
+  })
+
 }
 
-
-function generateBalas(player){
-  console.log(disparosP.length)
-  console.log(player)
-   var balas = new Balas(player)
+function generateBalas(){
+  var balas = new Balas('balas')
   disparosP.push(balas)
 }
 
@@ -270,8 +291,20 @@ function drawBalas(){
     if(e.keyCode == 37){
       comand.goLeft()
     }
-    if(e.key = 'Enter'){
+    if(e.key == 'Enter'){
       start()
-     // board.music.play()
+     pisoo.music.play()
     }
   })
+
+
+
+
+
+  // zelda muerte http://66.90.93.122/ost/the-legend-of-zelda-nes/ssgnhwrp/10%20Ending.mp3
+
+  // zedla comienzo: http://66.90.93.122/ost/legend-of-zelda-the-a-link-to-the-past-gb/gfepgvfs/02%20Beginning%20of%20the%20Journey.mp3
+
+  // zelda enemy http://66.90.93.122/ost/legend-of-zelda-the-a-link-to-the-past-gb/cznvhyve/26%20Release%20of%20Ganon.mp3
+
+  // zombie "http://soundbible.com/mp3/Mummy Zombie-SoundBible.com-1966938763.mp3"
