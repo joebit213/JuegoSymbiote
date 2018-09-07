@@ -261,7 +261,7 @@ class Boss {
     }
 }
     draw(){
-      this.x-=.2
+      this.x-=1
       ctx.drawImage(this.theImage,this.x,this.y,this.width,this.height)
   }
   checkCollition(soldado){
@@ -402,9 +402,9 @@ function update (){
   piso.draw()
   chipHasard.draw()
   gorgonita.draw()
-  if(score3>2){boss.draw();fondo.music.pause();boss.music.play()}
-  if(score3>5){win.draw();boss.music.pause();win.music.play()}
-  if(score3>8){youWin.draw();boss.music.pause();win.music.pause();youWin.music.play();clearInterval(interval);interval=null}
+  if(score3>50){boss.draw();fondo.music.pause();boss.music.play()}
+  if(score3>120){win.draw();boss.music.pause();win.music.play()}
+  if(score3>150){youWin.draw();boss.music.pause();win.music.pause();youWin.music.play();clearInterval(interval);interval=null}
 
 
 
