@@ -11,12 +11,33 @@ var score3 = 0;
 var interval;
 var frames = 0;
 var images = {
-  fondo:'https://art.pixilart.com/b1cba2e0287f955.png',
-  piso: 'https://art.pixilart.com/b443ba4e271a644.png',
+  fondo:'./images/sprite jueg/fondoooooooooooooooooo-pixilart.png',
+  piso: './images/sprite jueg/pisometr-pixilart.png',
   balas: './images/sprite jueg/player1/bala1.png', 
   bomba: './images/sprite jueg/bombas/bomba.png',
   instrucciones: './images/joseph.png'
 }
+
+class Fondo{
+  constructor(){
+    this.x = 0
+    this.y = 0
+    this.width = canvas.width
+    this.height = canvas.height
+    this.image = new Image ()
+    this.image.src = images.fondo
+    this.image.onload = () =>{ 
+      this.draw()
+    }
+    this.music = new Audio()
+    this.music.src = "http://66.90.93.122/ost/metroid-mission-zero/jhefqgug/10-spikey%20worm%20fight.mp3"
+    this.music2 = new Audio()
+    this.music2.src = 'http://66.90.93.122/ost/metroid-zero-mission/arttvdqz/05%20-%20samus%20aran.mp3'
+  }
+  draw(){
+    ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
+  }
+}//termina fondo
 
 class Piso{
   constructor(){
@@ -31,31 +52,13 @@ class Piso{
     }
     }
   draw(){
-    this.x--
+    this.x-=3
     if(this.x < -canvas.width) this.x = 0;
     ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
     ctx.drawImage(this.image,this.x + this.width,this.y,this.width,this.height)
   }
 }//termina piso
 
-class Fondo{
-  constructor(){
-    this.x = 0
-    this.y = 0
-    this.width = canvas.width
-    this.height = canvas.height
-    this.image = new Image ()
-    this.image.src = images.fondo
-    this.image.onload = () =>{ 
-      this.draw()
-    }
-    this.music = new Audio()
-    this.music.src = ""
-  }
-  draw(){
-    ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
-  }
-}//termina fondo
 
 class Balas{
   constructor(x=0,y=0){
@@ -65,7 +68,10 @@ class Balas{
     this.height=15
     this.image = new Image()
     this.image.src = images.balas
+    this.music = new Audio()
+    this.music.src = "http://66.90.93.122/ost/metroid-original-soundtrack/ytrslhyv/13%20-%20shut%20down.mp3"
         }
+        
         draw(){
             this.x+=18
             ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
@@ -75,7 +81,7 @@ class Balas{
 class Character{
         constructor(){
             this.balas = []
-            this.x = 40
+            this.x = -50
             this.y = 285
             this.gravity = 9
             this.width = 80
@@ -243,6 +249,8 @@ class Boss {
       this.image1.src = "./images/sprite jueg/boss/boss1.png"
       // this.image1.onload = this.draw
       this.theImage = this.image1
+      this.music = new Audio()
+       this.music.src = "http://66.90.93.122/ost/metroid-zero-mission/nlzfnqes/27%20-%20ridley.mp3"
   }
   animate(){
     if(frames % 10 === 0){
@@ -290,54 +298,81 @@ class Bomba {
         }
 }
 
-class win{
-  constructor(){
-    this.x = 100
-    this.y = 100
-    this.width = 300
+class Gameover {
+  constructor(){ 
+    this.x = 400
+    this.y = 150
+    this.width = 500
     this.height = 200
     this.image = new Image ()
-    this.image.src = images.win
-    this.image.onload = () =>{ 
+    this.image.src = './images/sprite jueg/game over.png'
+    this.image.onload = () =>{
       this.draw()
     }
-    this.music = new Audio()
-    this.music.src = ""
-  }
-  draw(){
-    ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
+    }
+    draw(){
+      ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
   }
 }
 
-
-class Killboss {
+class Youwin {
   constructor(){ 
-    this.x = canvas.width +10
-    this.y = 700
-    this.width = 250
-    this.height = 350
+    this.x = 400
+    this.y = 150
+    this.width = 500
+    this.height = 200
+    this.image = new Image ()
+    this.image.src = './images/sprite jueg/youwin.png'
+    this.image.onload = () =>{
+      this.draw()
+      this.music = new Audio()
+      this.music.src = 'http://66.90.93.122/ost/metroid-mission-zero/fakyynzr/46-mission%20accomplished.mp3'
+    }
+    }
+    draw(){
+      ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
+  }
+}
+
+class Win{
+  constructor(){
+    this.x = 600
+    this.y = 300
+    this.width = 400
+    this.height = 200
+    this.image7 = new Image()
+    this.image7.src = "./images/sprite jueg/bombas/exp7.png"
+    this.image6 = new Image()
+    this.image6.src = "./images/sprite jueg/bombas/exp6.png"
+    this.image5 = new Image()
+    this.image5.src = "./images/sprite jueg/bombas/exp5.png"
     this.image4 = new Image()
-      this.image4.src = "./images/sprite jueg/boss/boss4.png"
-      this.image3 = new Image()
-      this.image3.src = "./images/sprite jueg/boss/boss3.png"
-      this.image2 = new Image()
-      this.image2.src = "./images/sprite jueg/boss/boss2.png"
-      this.image1 = new Image()
-      this.image1.src = "./images/sprite jueg/boss/boss1.png"
+    this.image4.src = "./images/sprite jueg/bombas/exp4.png"
+    this.image3 = new Image()
+    this.image3.src = "./images/sprite jueg/bombas/exp3.png"
+    this.image2 = new Image()
+    this.image2.src = "./images/sprite jueg/bombas/exp2.png"
+    this.image1 = new Image()
+    this.image1.src = "./images/sprite jueg/bombas/exp1.png"
       // this.image1.onload = this.draw
       this.theImage = this.image1
+    this.music = new Audio()
+    this.music.src = "./images/8-Bit-SFX_Explosion_13.mp3"
   }
   animate(){
     if(frames % 10 === 0){
         if(this.theImage === this.image1) this.theImage = this.image2
         else if(this.theImage === this.image2) this.theImage = this.image3
         else if(this.theImage === this.image3) this.theImage = this.image4
-        else if(this.theImage === this.image4) this.theImage = this.image1
+        else if(this.theImage === this.image4) this.theImage = this.image5
+        else if(this.theImage === this.image5) this.theImage = this.image6
+        else if(this.theImage === this.image6) this.theImage = this.image7
+        else if(this.theImage === this.image7) this.theImage = this.image1
     }
 }
-    draw(){
-      this.x-=.2
-      ctx.drawImage(this.theImage,this.x,this.y,this.width,this.height)
+  draw(){
+    this.y-=1
+    ctx.drawImage(this.theImage,this.x,this.y,this.width,this.height)
   }
 }
 
@@ -346,15 +381,18 @@ class Killboss {
 /////////////////termina clases
 
 //instancias
+var fondo = new Fondo()
 var chipHasard = new Character()
 var piso = new Piso()
 var zombie = new Zombie()
-var fondo = new Fondo()
 var cuervo = new Cuervo()
 var bomba = new Bomba()
 var boss = new Boss()
 var gorgonita = new Character2()
-
+var win = new Win()
+var gameOverr = new Gameover()
+var youWin = new Youwin()
+var balas1 = new Balas()
 
 ///////funciones principales
 function update (){
@@ -364,12 +402,17 @@ function update (){
   piso.draw()
   chipHasard.draw()
   gorgonita.draw()
-  if(score3>100)boss.draw()
+  if(score3>2){boss.draw();fondo.music.pause();boss.music.play()}
+  if(score3>5){win.draw();boss.music.pause();win.music.play()}
+  if(score3>8){youWin.draw();boss.music.pause();win.music.pause();youWin.music.play();clearInterval(interval);interval=null}
+
+
 
   
   chipHasard.animate()
   gorgonita.animate()
   boss.animate()
+  win.animate()
 
   
   ///////////////////////////////
@@ -413,12 +456,15 @@ function start(){
   interval = setInterval(update,1000/60)
 }
 
-/*function gameOver(){
+function gameOver(){
   clearInterval(interval)
-  ctx.font = ('90px Avenir')
-  ctx.fillText('Game Over', 50 ,250)
+  gameOverr.draw()
+  fondo.music.pause()
+  boss.music.pause()
+  balas1.music.pause()
+  fondo.music2.play()
   interval=null
-}*/
+}
 
 ////funciones auxiliares
 function balasAndBadZombies(){
@@ -427,17 +473,9 @@ function balasAndBadZombies(){
                 if(zombie.checkCollition(bala)){
                     chipHasard.balas.splice(bI,1)
                     zombies.splice(zI,1)
-                    //zombie.music.play()
                     score1 ++
                     score3 ++
-                    if(score1 > 100 ) {
-                      clearInterval(interval)
-                      ctx.font = "30px 'Press Start 2P', cursive";
-                      ctx.fillStyle = "black";
-                      ctx.fillText("Mission Complete", 400, 300);
-                      ctx.fillText("score player 1: "+score1 + "!!!", 400,350)
-                      interval=null
-                }
+                
               }
             })
           
@@ -481,13 +519,13 @@ function balasAndBadBoss2(){
 
   function drawScore1() {
     ctx.font = "15px 'Press Start 2P', cursive";
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "blue";
     ctx.fillText("Score player 1: "+score1, 38, 30);
 }
 
 function drawScore2() {
   ctx.font = "15px 'Press Start 2P', cursive";
-  ctx.fillStyle = "red";
+  ctx.fillStyle = "blue";
   ctx.fillText("Score player 2: "+score2, 1000, 30);
 }
 
@@ -509,8 +547,7 @@ function drawScore3() {
 function checkBombasCollitions(){
   bombas.forEach(function(bomba){
       if(bomba.checkCollition(chipHasard)){
-          var index = bombas.indexOf(bomba)
-          bombas.splice(index,1)
+        gameOver()
       }
   })
 }
@@ -524,14 +561,14 @@ function drawBombas(){
 function drawBalas(){
         chipHasard.balas.forEach(function(bala){
             bala.draw()
+            balas1.music.play()
         })
     }
 
 function checkZombiesCollitions(){
         zombies.forEach(function(zombie){
             if(zombie.checkCollition(chipHasard)){
-                var index = zombies.indexOf(zombie)
-                zombies.splice(index,1)
+              gameOver()
             }
         })
     }
@@ -551,10 +588,9 @@ function drawZombie(){
               if(zombie.checkCollition(bala2)){
                   gorgonita.balas2.splice(bI,1)
                   zombies.splice(zI,1)
-                  zombie.music.play()
                   score2 ++
                   score3 ++
-                  if(score2 > 500 ) {
+                  if(score2 > 600 ) {
                     clearInterval(interval)
                     ctx.font = "30px 'Press Start 2P', cursive";
                     ctx.fillStyle = "black";
@@ -586,8 +622,7 @@ function drawZombie(){
     function checkCuervosCollitions2(){
       cuervos.forEach(function(cuervo){
           if(cuervo.checkCollition(gorgonita)){
-              var index = cuervos.indexOf(cuervo)
-              cuervos.splice(index,1)
+            gameOver()
           }
       })
   }
@@ -596,8 +631,7 @@ function drawZombie(){
     function checkBombasCollitions2(){
       bombas.forEach(function(bomba){
           if(bomba.checkCollition(gorgonita)){
-              var index = bombas.indexOf(bomba)
-              bombas.splice(index,1)
+            gameOver()
           }
       })
     }
@@ -606,8 +640,7 @@ function drawZombie(){
     function checkZombiesCollitions2(){
       zombies.forEach(function(zombie){
           if(zombie.checkCollition(gorgonita)){
-              var index = zombies.indexOf(zombie)
-              zombies.splice(index,1)
+            gameOver()
           }
       })
   }
@@ -615,6 +648,7 @@ function drawZombie(){
     function drawBalas2(){
       gorgonita.balas2.forEach(function(bala2){
           bala2.draw()
+          balas1.music.play()
       })
   }
     ///////////////////////////////////////////////////////////////////////////////
@@ -665,7 +699,7 @@ addEventListener('keydown',function(e){
   }
   if(e.key == 'Enter'){
     start()
-    //fondo.music.play()
+    fondo.music.play()
   }
 })
 
@@ -702,14 +736,8 @@ window.onload = () => {ctx.drawImage(instrucciones,0,0,canvas.width,canvas.heigh
 
 
 
+//// boss music http://66.90.93.122/ost/metroid-zero-mission/nlzfnqes/27%20-%20ridley.mp3
 
+//// musica fondo http://66.90.93.122/ost/metroid-mission-zero/jhefqgug/10-spikey%20worm%20fight.mp3
 
-
-  // zelda muerte http://66.90.93.122/ost/the-legend-of-zelda-nes/ssgnhwrp/10%20Ending.mp3
-
-  // zedla comienzo: http://66.90.93.122/ost/legend-of-zelda-the-a-link-to-the-past-gb/gfepgvfs/02%20Beginning%20of%20the%20Journey.mp3
-
-  // zelda enemy http://66.90.93.122/ost/legend-of-zelda-the-a-link-to-the-past-gb/cznvhyve/26%20Release%20of%20Ganon.mp3
-
-  // zombie "http://soundbible.com/mp3/Mummy Zombie-SoundBible.com-1966938763.mp3"
-  
+//// disparos http://66.90.93.122/ost/metroid-original-soundtrack/euwpaslv/01%20-%20metroid%20title.mp3
