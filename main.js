@@ -30,9 +30,9 @@ class Fondo{
       this.draw()
     }
     this.music = new Audio()
-    this.music.src = "http://66.90.93.122/ost/metroid-mission-zero/jhefqgug/10-spikey%20worm%20fight.mp3"
+    this.music.src = "https://downloads.khinsider.com/game-soundtracks/album/metroid-samus-returns-special-edition-samus-archives/04%2520Theme%2520of%2520Samus%2520%25E2%2580%25A2%2520Metroid%2520Samus%2520Returns.mp3"
     this.music2 = new Audio()
-    this.music2.src = 'http://66.90.93.122/ost/metroid-zero-mission/arttvdqz/05%20-%20samus%20aran.mp3'
+    this.music2.src = 'https://downloads.khinsider.com/game-soundtracks/album/metroid-samus-returns-special-edition-samus-archives/04%2520Theme%2520of%2520Samus%2520%25E2%2580%25A2%2520Metroid%2520Samus%2520Returns.mp3'
   }
   draw(){
     ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
